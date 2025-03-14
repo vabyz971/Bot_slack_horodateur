@@ -1,18 +1,7 @@
 import type {
   AllMiddlewareArgs,
-  SlackCommandMiddlewareArgs
+  SlackCommandMiddlewareArgs,
 } from "@slack/bolt";
-
-
-const listCommand =[
-  {
-    name: "infos",
-    description: "Affiche les informations du serveur",
-  }
-]
-
-
-
 
 const InfosCommandCallback = async ({
   ack,
@@ -21,19 +10,82 @@ const InfosCommandCallback = async ({
   logger,
 }: AllMiddlewareArgs & SlackCommandMiddlewareArgs) => {
   try {
-
     await ack();
     await respond({
-      "blocks": [
+      blocks: [
         {
-          "type": "header",
-          "text": {
-            "type": "plain_text",
-            "text": "This is a header block",
-            "emoji": true
-          }
-        }
-      ]
+          type: "header",
+          text: {
+            type: "plain_text",
+            text: "Information :spiral_note_pad:",
+            emoji: true,
+          },
+        },
+        {
+          type: "rich_text",
+          elements: [
+            {
+              type: "rich_text_section",
+              elements: [
+                {
+                  type: "text",
+                  text: "Details: ",
+                },
+              ],
+            },
+            {
+              type: "rich_text_list",
+              style: "bullet",
+              indent: 0,
+              elements: [
+                {
+                  type: "rich_text_section",
+                  elements: [
+                    {
+                      type: "text",
+                      text: "Nom: ",
+                    },
+                    {
+                      type: "text",
+                      text: "@Horodateur",
+                    },
+                  ],
+                },
+                {
+                  type: "rich_text_section",
+                  elements: [
+                    {
+                      type: "text",
+                      text: "Version: ",
+                    },
+                    {
+                      type: "text",
+                      text: "0.2",
+                    },
+                  ],
+                },
+                {
+                  type: "rich_text_section",
+                  elements: [
+                    {
+                      type: "text",
+                      text: "Autheur: ",
+                    },
+                    {
+                      type: "link",
+                      url: "https://github.com/vabyz971",
+                      text: "Vabyz971",
+                      style: {
+                        bold: true,
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     });
   } catch (error) {
     logger.error(error);
