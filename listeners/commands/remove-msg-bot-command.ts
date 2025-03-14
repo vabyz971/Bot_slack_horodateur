@@ -14,7 +14,7 @@ const RemoveMsgBotCommandCallback = async ({
   try {
     await ack();
     // Vérifier les permissions
-    if (command.user_id !== "U088BQE0HHP") {
+    if (command.user_id !== String(process.env.SLACK_ADMIN_USER)) {
       return respond("❌ Action réservée aux admins");
     }
 
@@ -24,7 +24,7 @@ const RemoveMsgBotCommandCallback = async ({
 
     while (hasMore) {
       const result = await client.conversations.history({
-        channel: "D08HJBBPZDK",
+        channel: String(process.env.SLACK_CHANNEL_BOT),
         latest,
         limit: 200,
       });
@@ -35,7 +35,7 @@ const RemoveMsgBotCommandCallback = async ({
       for (const message of result.messages) {
         if (message.ts) {
           await client.chat.delete({
-            channel: "D08HJBBPZDK",
+            channel: String(process.env.SLACK_CHANNEL_BOT),
             ts: message.ts,
           });
           console.log(`Message ${message.ts} supprimé`);
