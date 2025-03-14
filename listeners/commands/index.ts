@@ -1,8 +1,10 @@
-import type { App } from '@slack/bolt';
-import sampleCommandCallback from './sample-command';
+import type { App } from "@slack/bolt";
+import InfosCommandCallback from "./infos-command";
+import RemoveMsgBotCommandCallback from "./remove-msg-bot-command";
 
 const register = (app: App) => {
-  app.command('/sample-command', sampleCommandCallback);
+  app.command("/infos", InfosCommandCallback);
+  app.command("/clean-channel", RemoveMsgBotCommandCallback);
 };
 
 export default { register };
